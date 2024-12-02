@@ -1,0 +1,40 @@
+date:22.11.2024, 10:21
+name:Math
+question:1/2
+user's answer:0.25
+is correct:no
+question:12-(1/4)
+user's answer:13
+is correct:no
+question:12*10
+user's answer:100
+is correct:no
+question:31*4
+user's answer:144
+is correct:no
+question:1/4*1/2
+user's answer:1/5
+is correct:no
+mark:0
+
+
+date:22.11.2024, 10:22
+name:Math
+question:1/2
+user's answer:0.5
+is correct:yes
+question:12-(1/4)
+user's answer:11.75
+is correct:yes
+question:12*10
+user's answer:130
+is correct:no
+question:31*4
+user's answer:124
+is correct:yes
+question:1/4*1/2
+user's answer:1/2
+is correct:no
+mark:7.2
+
+

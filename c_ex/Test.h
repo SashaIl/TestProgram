@@ -5,6 +5,7 @@
 #include <fstream>
 #include <stdlib.h>
 #include <ctime>
+#include <io.h>
 
 using namespace std;
 class Test
@@ -42,21 +43,16 @@ public:
 
 	void ReadKeyValue(ifstream& file, char buffer[], char* context, char*& key, char*& value);
 
-	void TakeFromFile(char* FileName);
+	bool TakeFromFile(char* FileName);
 	
-	/*void SavingDuringTesting(char* login, bool correct,int mark) {
-		ofstream file(FullPathInfoPassingTest(login), ios::out | ios::ate);
-		file << "name:" << Name << endl;
-		for (int i = 0; i < CountOfQuestions; i++) {
-			
-		}
-	}*/
-
-
 	void PassTest(char* login, char* FileName);
 
 	void ShowInfoPassedTest(char* login);
 
 	void RemoveTest(char* FileName);
+
+	bool ShowAllTests();
+
+	bool DoesTestExist(char* FileName) const;
 };						
 

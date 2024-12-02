@@ -1,0 +1,28 @@
+date:01.12.2024, 00:30
+name:math
+question:123+123
+user's answer:246
+is correct:yes
+question:1*0
+user's answer:0
+is correct:yes
+question:Capital USA
+user's answer:Washinghton DC
+is correct:yes
+mark:12
+
+
+date:01.12.2024, 01:11
+name:math
+question:123+123
+user's answer:226
+is correct:no
+question:1*0
+user's answer:0
+is correct:yes
+question:Capital USA
+user's answer:Washinghton DC
+is correct:yes
+mark:8
+
+

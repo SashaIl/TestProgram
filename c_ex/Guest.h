@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <cstring>
+#include <fstream>
+#include <io.h>
 using namespace std;
 
 class Guest
@@ -26,7 +28,8 @@ private:
 	static int IdCounter;
 public:
 
-	void Clear();
+	Guest() {}
+
 
 	Guest(char* Name_f, char* Surname_f, char* MiddleName_f, char* HomeAddress_f, char* PhoneNumber_f, char* Login_f, char* Password_f) :
 		UniqueId{ IdCounter += 1 }
@@ -153,7 +156,28 @@ public:
 		return *this;
 	}
 
+	GuestData& GetLogAndPass();
 
+	void Clear();
 
+	bool TakeFromFile(char* Login);
+
+	char* FullPathToGuestInfo(char* Login);
+
+	bool DoesGuestExist(char* Login);
+
+	bool CreateGuest(char* Login, char* Pass, char* Name, char* Surname, char* MiddleName, char* Address, char* PhoneNum);
+
+	bool LogIn(char* Login, char* Pass);
+
+	bool RemoveGuestWithLog(char* Login);
+
+	bool GuestChangePass(char* Login, char* Pass, char* NewPass,bool);
+
+	bool RemoveGuestWithLogAndPass(char* Login, char* Pass);
+
+	void ShowAllGuests();
+
+	bool ShowGuest(char* Login);
 };
 
