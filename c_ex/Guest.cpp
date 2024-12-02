@@ -235,8 +235,12 @@ bool Guest::ShowAllGuests() {
 		Showed = true;
 	} while (_findnext(done, &file) == 0);
 
-	if (Showed) { return true; }
+	if (Showed) {
+		_findclose(done);
+		return true; 
+	}
 	return false;
+	_findclose(done);
 }
 
 bool Guest::ShowGuest(char* Login) {

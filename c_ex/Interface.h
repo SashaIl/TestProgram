@@ -70,6 +70,11 @@ public:
 						else if (AdminOptions == 2) {
 
 							while (true) {
+								if (ExistAdmin()) {
+									system("cls");
+									cout << "The administrator already exists, please log in!\n";
+									break;
+								}
 								system("cls");
 								cout << "Input your login: "; cin.getline(login, 101);
 								cout << "\n";
@@ -185,11 +190,11 @@ public:
 							cin >> AdminMenuOptions;
 							if (cin.fail()) { throw 1; }
 							cin.ignore();
-							if (AdminMenuOptions < 1/* || AdminMenuOptions > 10*/) {
+							if (AdminMenuOptions < 1 || AdminMenuOptions > 15) {
 								system("cls");
 								cout << "Please input from 1 to 10!\n"; 
 							}
-						} while (AdminMenuOptions < 1 /*|| AdminMenuOptions > 10*/);
+						} while (AdminMenuOptions < 1 || AdminMenuOptions > 15);
 
 						if (AdminMenuOptions == 1) {
 							system("cls");
@@ -735,13 +740,13 @@ public:
 							do
 							{
 								cout << "\n1 - Pass the test" <<
-									"\n2 - Show information about passed test" <<
-									"\n3 - Show test" <<
-									"\n4 - Change password" <<
-									"\n5 - Remove guest" <<
-									"\n6 - Show Information" <<
-									"\n7 - Exit" <<
-									"\n-> ";
+									"\n\n2 - Show information about passed test" <<
+									"\n\n3 - Show test" <<
+									"\n\n4 - Change password" <<
+									"\n\n5 - Remove guest" <<
+									"\n\n6 - Show Information" <<
+									"\n\n7 - Exit" <<
+									"\n\n-> ";
 
 								cin >> GuestMenuOptions;
 								if (cin.fail()) { throw 1; }
@@ -901,7 +906,7 @@ public:
 
 							else if(GuestMenuOptions == 7){
 								cout << "Good bye!\n";
-								break;
+								return;
 							}
 						}
 						break;

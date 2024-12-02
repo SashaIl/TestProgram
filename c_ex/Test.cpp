@@ -501,6 +501,11 @@ bool Test::ShowAllTests() {
 		//}
 		i += 1;
 	} while (_findnext(done, &file) == 0);
-	if (MoreThanTwo) { return true; }
+	if (MoreThanTwo) {
+		_findclose(done);
+		return true; 
+	}
+	_findclose(done);
 	return false;
+
 }

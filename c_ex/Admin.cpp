@@ -167,23 +167,8 @@ bool Admin::AdminChangePass(char* Login,char* Pass, char* NewPass) {
 
 		bool isLogin = false;
 		bool isPassword = false;
-		//char buffer[101];
-		//while (!fileCreate.eof()) {
-
-		//	fileCreate.getline(buffer, 101);
-		//	key = strtok_s(buffer, ":", &context);
-		//	value = strtok_s(nullptr, ":", &context);
-
-		//	if (!key || !value) { break; }
-		//	else {
-		//		if (!(strcmp(key, (char*)"login")) && !(strcmp(value, Login))) { isLogin = true; }
-		//		else if (!(strcmp(key, (char*)"password")) && !(strcmp(value, Pass))) { isPassword = true; }
-		//		else if (!(strcmp(key, (char*)"keyword"))) {
-		//			tempKeyWord = new char[strlen(value) + 1];
-		//			strcpy_s(tempKeyWord, strlen(value) + 1, value);
-		//		}
-		//	}
-		//}
+	
+	
 
 		TakeFromFile(Login);
 
@@ -305,8 +290,15 @@ bool Admin::RemoveAdminAndTests(char* Login, char* Pass) {
 		system("cls");
 		cout << "Well done!\n";
 		return true;
+		_findclose(done);
 	}
 	else { return false; }
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 
+bool Admin::ExistAdmin() {
+	_finddata_t file;
+	intptr_t done = _findfirst("LoginsAndPasswords\\Admin\\*.txt", &file);
+	if (done == -1) { return  false; }
+	return true;
+}

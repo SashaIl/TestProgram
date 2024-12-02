@@ -12,7 +12,7 @@ private:
 		char* login;
 		char* password;
 		char* keyword;
-			AdminData() : login{ nullptr }, password{ nullptr }, keyword{ nullptr } {}
+		AdminData() : login{ nullptr }, password{ nullptr }, keyword{ nullptr } {}
 	};
 	AdminData AdminLogAndPass;
 public:
@@ -32,6 +32,7 @@ public:
 	~Admin() {
 		delete[] AdminLogAndPass.login;
 		delete[] AdminLogAndPass.password;
+		delete[] AdminLogAndPass.keyword;
 	}
 
 	AdminData& GetAdminLogAndPass();
@@ -59,6 +60,9 @@ public:
 	char* FullPathForRemoveTests(char* File) const;
 
 	bool RemoveAdminAndTests(char* Login, char* Pass);
+
+	bool ExistAdmin();
+
 };
 
 

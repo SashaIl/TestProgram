@@ -1,0 +1,14 @@
+date:02.12.2024, 18:15
+name:math
+question:2
+user's answer:1
+is correct:no
+question:1+1
+user's answer:2
+is correct:yes
+question:5+1
+user's answer:6
+is correct:yes
+mark:8
+
+
