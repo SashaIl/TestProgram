@@ -1,6 +1,5 @@
 #include "Guest.h"
 
-int Guest::IdCounter{ 0 };
 
 void Guest::Clear(){
 	delete[] this->GuestInfo.Name;
@@ -126,7 +125,7 @@ bool Guest::CreateGuest(char* Login, char* Pass, char* Name, char* Surname, char
 		file << "middle name:" << MiddleName << endl;
 		file << "address:" << Address << endl;
 		file << "phone number:" << PhoneNum << endl;
-		file << "id:" << ++IdCounter << endl;
+		file << "id:" << 1000000 + rand() % 9000000 << endl;
 
 		TakeFromFile(Login);
 		file.close();
@@ -155,15 +154,18 @@ bool Guest::LogIn(char* Login, char* Pass) {
 }
 
 bool Guest::RemoveGuestWithLog(char* Login) {
-	char* path = FullPathToGuestInfo(Login);
 	if (DoesGuestExist(Login)) {
-		remove(path);
 
+		char* path = FullPathToGuestInfo(Login);
+		remove(path);
+		char* path2 = Test::FullPathInfoPassingTest(Login);
+		remove(path2);
+
+		delete[] path2;
 		delete[] path;
 		return true;
 	}
 
-	delete[] path;
 	return false;
 }
 
@@ -200,43 +202,55 @@ bool Guest::RemoveGuestWithLogAndPass(char* Login, char* Pass) {
 		cout << "please input correct data!\n";
 		return false;
 	}
-	char* path = FullPathToGuestInfo(Login);
-	remove(path);
 
-	delete[] path;
-	return true;
+	TakeFromFile(Login);
+	if (!strcmp(Login, this->GuestLogAndPass.Login) && !strcmp(Pass, this->GuestLogAndPass.Password)) {
+		char* path = FullPathToGuestInfo(Login);
+		char* path2 = Test::FullPathInfoPassingTest(Login);
+
+		remove(path2);
+		remove(path);
+
+		delete[] path2;
+		delete[] path;
+		return true;
+	}
+	return false;
 }
 
-void Guest::ShowAllGuests() {
+bool Guest::ShowAllGuests() {
 	_finddata_t file;
 	intptr_t done = _findfirst("LoginsAndPasswords\\Guest\\*.txt", &file);
-	if (done == -1) { return; }
+	if (done == -1) { return false; }
 
+	bool Showed = false;
+	
 	char* context = nullptr;
-	system("cls");
 	do
 	{
+		
 		char* key = strtok_s(file.name, "_", &context);
 		char* value = strtok_s(nullptr, ".", &context);
-		cout << value << endl;
+		cout << "Guest: " << value << endl;
+		Showed = true;
 	} while (_findnext(done, &file) == 0);
 
+	if (Showed) { return true; }
+	return false;
 }
 
 bool Guest::ShowGuest(char* Login) {
-	if (!DoesGuestExist(Login)) {
-		cout << "please input correct data!\n";
-		return false;
-	}
+	if (!DoesGuestExist(Login)) { return false; }
 	char* path = FullPathToGuestInfo(Login);
 	fstream file(path, ios::in);
 
 	char buffer[101];
 	while (!file.eof()) {
 		file.getline(buffer, 101);
-		cout << buffer;
+		cout << buffer << endl;
 	}
 	cout << "\n";
+	return true;
 	file.close();
 	delete[] path;
 }

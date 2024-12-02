@@ -117,7 +117,7 @@ Test& Test::CreateTheTest() {
 			for (int i = 0; i < CountOfQuestions; i++) {
 				QuestionAnswerTest[i].Question = new char[101];
 				QuestionAnswerTest[i].Answer = new char[101];
-
+				system("cls");
 				cout << "Input question number " << i + 1 << " :";
 				cin.getline(QuestionAnswerTest[i].Question, 101);
 
@@ -321,9 +321,9 @@ bool Test::TakeFromFile(char* FileName) {
 //////////////////////////////////////////////////////////////////////////////////////////
 
 
-void Test::PassTest(char* login, char* FileName) {
+bool Test::PassTest(char* login, char* FileName) {
 	if (!DoesTestExist(FileName)) {
-		cout << "Such a test does not exist!\n";
+		return false;
 	}
 	else {
 		try {
@@ -346,7 +346,7 @@ void Test::PassTest(char* login, char* FileName) {
 			if (!file_temporary.is_open()) {
 				cout << "something went wrong!\n";
 				file_temporary.close();
-				return;
+				return false;
 			}
 			ofstream delete_file_temporary(path3, ios::trunc);
 			delete_file_temporary.close();
@@ -420,29 +420,33 @@ void Test::PassTest(char* login, char* FileName) {
 		}
 		catch (int) {
 			cout << "something went wrong!\n";
+			return false;
 		}
+		return true;
 	}
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 
-void Test::ShowInfoPassedTest(char* login) {
+bool Test::ShowInfoPassedTest(char* login) {
 	char* path = FullPathInfoPassingTest(login);
 	ifstream file(path, ios::in);
 
 	if (!file.is_open()) {
-		cout << "something went wrong!\n";
-		return;
+		file.close();
+		delete[] path;
+		cout << "Not found\n";
+		return true;
 	}
 	char buffer[101];
 
 	while (!file.eof()) {
 		file.getline(buffer, 101);
 
-		cout << buffer << endl;
+		cout << buffer << "\n\n";
 	}
-
 	file.close();
 	delete[] path;
+	return true;
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 
@@ -479,8 +483,8 @@ bool Test::DoesTestExist(char* FileName) const {
 bool Test::ShowAllTests() {
 
 	_finddata_t file;
-	intptr_t done = _findfirst("Tests\\*", &file);
-	if (done == 1) { return false; }
+	intptr_t done = _findfirst("Tests\\*.txt", &file);
+	if (done == -1) { return false; }
 
 	bool MoreThanTwo = false;
 
@@ -488,13 +492,13 @@ bool Test::ShowAllTests() {
 	int i = 0;
 	do
 	{
-		if (i >= 2) {
+		//if (i >= 2) {
 			char* key = strtok_s(file.name, ".", &context);
 			MoreThanTwo = true;
 			TakeFromFile(key);
 			Display(1);
 			cout << "------------------------------------------\n";
-		}
+		//}
 		i += 1;
 	} while (_findnext(done, &file) == 0);
 	if (MoreThanTwo) { return true; }

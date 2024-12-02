@@ -3,9 +3,10 @@
 #include <cstring>
 #include <fstream>
 #include <io.h>
+#include "Test.h"
 using namespace std;
 
-class Guest
+class Guest : protected Test
 {
 private:
 	struct GuestInformation {
@@ -25,14 +26,13 @@ private:
 	GuestInformation GuestInfo;
 	GuestData GuestLogAndPass;
 	int UniqueId;
-	static int IdCounter;
 public:
 
 	Guest() {}
 
 
 	Guest(char* Name_f, char* Surname_f, char* MiddleName_f, char* HomeAddress_f, char* PhoneNumber_f, char* Login_f, char* Password_f) :
-		UniqueId{ IdCounter += 1 }
+		UniqueId{ 1000000 + rand() % 9000000 }
 	{
 		if (Name_f) {
 			GuestInfo.Name = new char[strlen(Name_f) + 1];
@@ -75,7 +75,7 @@ public:
 	}
 
 
-	Guest(const Guest& obj) : UniqueId{ IdCounter += 1 } {
+	Guest(const Guest& obj) {
 		if (obj.GuestInfo.Name) {
 			this->GuestInfo.Name = new char[strlen(obj.GuestInfo.Name) + 1];
 			strcpy_s(this->GuestInfo.Name, strlen(obj.GuestInfo.Name) + 1, obj.GuestInfo.Name);
@@ -110,6 +110,8 @@ public:
 			this->GuestLogAndPass.Password = new char[strlen(obj.GuestLogAndPass.Password) + 1];
 			strcpy_s(this->GuestLogAndPass.Password, strlen(obj.GuestLogAndPass.Password) + 1, obj.GuestLogAndPass.Password);
 		}
+
+		if (obj.UniqueId) { UniqueId = obj.UniqueId; }
 
 	}
 	
@@ -176,7 +178,7 @@ public:
 
 	bool RemoveGuestWithLogAndPass(char* Login, char* Pass);
 
-	void ShowAllGuests();
+	bool ShowAllGuests();
 
 	bool ShowGuest(char* Login);
 };

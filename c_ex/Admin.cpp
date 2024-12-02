@@ -72,7 +72,9 @@ void Admin::TakeFromFile(char* FileName) {
 				strcpy_s(this->AdminLogAndPass.keyword, strlen(value) + 1, value);
 			}
 		}
+	
 	}
+	file.close();
 	delete[]path;
 }
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -165,30 +167,42 @@ bool Admin::AdminChangePass(char* Login,char* Pass, char* NewPass) {
 
 		bool isLogin = false;
 		bool isPassword = false;
-		char buffer[101];
-		while (!fileCreate.eof()) {
+		//char buffer[101];
+		//while (!fileCreate.eof()) {
 
-			fileCreate.getline(buffer, 101);
-			key = strtok_s(buffer, ":", &context);
-			value = strtok_s(nullptr, ":", &context);
+		//	fileCreate.getline(buffer, 101);
+		//	key = strtok_s(buffer, ":", &context);
+		//	value = strtok_s(nullptr, ":", &context);
 
-			if (!key || !value) { break; }
-			else {
-				if (!(strcmp(key, (char*)"login")) && !(strcmp(value, Login))) { isLogin = true; }
-				else if (!(strcmp(key, (char*)"password")) && !(strcmp(value, Pass))) { isPassword = true; }
-				else if (!(strcmp(key, (char*)"keyword"))) {
-					tempKeyWord = new char[strlen(value) + 1];
-					strcpy_s(tempKeyWord, strlen(value) + 1, value);
-				}
-			}
+		//	if (!key || !value) { break; }
+		//	else {
+		//		if (!(strcmp(key, (char*)"login")) && !(strcmp(value, Login))) { isLogin = true; }
+		//		else if (!(strcmp(key, (char*)"password")) && !(strcmp(value, Pass))) { isPassword = true; }
+		//		else if (!(strcmp(key, (char*)"keyword"))) {
+		//			tempKeyWord = new char[strlen(value) + 1];
+		//			strcpy_s(tempKeyWord, strlen(value) + 1, value);
+		//		}
+		//	}
+		//}
+
+		TakeFromFile(Login);
+
+		if (!(strcmp(this->GetAdminLogAndPass().password, Pass)) && !(strcmp(this->GetAdminLogAndPass().login, Login))) {
+			isPassword = true;
+			isLogin = true; 
 		}
+		
+		if (this->GetAdminLogAndPass().keyword) {
+			tempKeyWord = new char[strlen(this->GetAdminLogAndPass().keyword) + 1];
+			strcpy_s(tempKeyWord, strlen(this->GetAdminLogAndPass().keyword) + 1, this->GetAdminLogAndPass().keyword);
+		}
+
 		if (isLogin && isPassword) {
 			fileCreate.close();
 			RemoveAdmin(Login);
 			CreateAdmin(Login, NewPass, tempKeyWord);
 			if (tempKeyWord) { delete[] tempKeyWord; }
 			delete[] path;
-			cout << "Well done!\n";
 			return true;
 		}
 		else {
@@ -202,7 +216,7 @@ bool Admin::AdminChangePass(char* Login,char* Pass, char* NewPass) {
 }
 //////////////////////////////////////////////////////////////////////////////////////////
 
-bool Admin::AdminChangePassWithKeyWord(char* NewPass, char* Login, char* KeyWord) {
+bool Admin::AdminChangePassWithKeyWord(char* Login, char* NewPass, char* KeyWord) {
 	if (DoesAdminExist(Login)) {
 		char* path = FullPathToAdminInfo(Login);
 		fstream fileCreate(path, ios::in);
@@ -230,7 +244,6 @@ bool Admin::AdminChangePassWithKeyWord(char* NewPass, char* Login, char* KeyWord
 			RemoveAdmin(Login);
 			CreateAdmin(Login, NewPass, KeyWord);
 			delete[] path;
-			cout << "Well done!\n";
 			return true;
 		}
 		else {

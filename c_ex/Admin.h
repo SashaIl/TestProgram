@@ -50,9 +50,9 @@ public:
 
 	bool RemoveAdmin(char* FileName);
 
-	bool AdminChangePass(char* FormerPass, char* NewPass, char* Login);
+	bool AdminChangePass(char* Login, char* Pass, char* NewPass);
 
-	bool AdminChangePassWithKeyWord(char* NewPass, char* Login, char* KeyWord);
+	bool AdminChangePassWithKeyWord(char* Login, char* NewPass, char* KeyWord);
 
 	bool AdminLogIn(char* Login, char* Pass);
 

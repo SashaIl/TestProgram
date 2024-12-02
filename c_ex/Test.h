@@ -45,9 +45,9 @@ public:
 
 	bool TakeFromFile(char* FileName);
 	
-	void PassTest(char* login, char* FileName);
+	bool PassTest(char* login, char* FileName);
 
-	void ShowInfoPassedTest(char* login);
+	bool ShowInfoPassedTest(char* login);
 
 	void RemoveTest(char* FileName);
 
